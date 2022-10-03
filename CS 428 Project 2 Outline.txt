@@ -62,9 +62,29 @@ library of ruina/lobotomy corp kiosk
 			would basically double the models needed
 		damage numbers + damage type
 	
+Floor Layouts:
+
+History:
+	Malkuth will be holding a pen and sketchpad. Her animation will likely involve her scribbling down notes on the pad.
+	The room will be very cluttered. Immediately, there is a table with books. there are few chairs laid out, with a orange-brown ornate design. There will be tall
+	bookshelfs sitting closely behind the table, and alongside that, piles of messy brown books will be strewn about at random, both on the floor and on the table.
+	there are some open books sitting around on the table as well, and perhaps a pen or bookmarks of sorts.
+	TLDR: bookshelfs, brown/orange lighting, piles of books, open books, tables, chairs.
+	
+Technology:
+	Yesod will likely be standing, perhaps holding a datapad or a phone or some other advanced piece of technology. His animation could be fiddling with the
+	device, such as swiping on it. Yesod's room will be purple. The lighting of this room will be purple most everywhere. The bookshelfs cover the walls
+	exclusively, leaving much open area in the front of the floor display. near the back, there could be a window, with a background of a purple city behind it.
+	There will be a small, rectangular table, with dual square patterns on its side. next to the table sits a one person couch, and opposite the table is a fridge?
+	resting by a bookshelf. Atop the room, could be a layout of floating gears in the same pattern, attached to some sort of visible strings keeping the whole
+	component "together", atleast visually speaking.
+	TLDR: rectangular box table, short one man recliner, mini-fridge, purple lighting, gears, strings for the gears.
+	
+
+
 	
 EGO
-	floor of history
+	floor of history 
 		fourth match flame
 		bear paws/the forgotten
 		wingbeat

@@ -1,0 +1,123 @@
+50% of the points on the project is for creating a basic kiosk with
+	15 unique models from the web (remember to cite the creators)
+		coffee mug model for chesed
+		book model for hod
+		notepad/pen for malkuth
+		cup of tea for binah
+		pocketwatch for hokma
+	5 unique models that you create on your own (more on this below)
+		lmao
+	at least 5 of the models need to have appropriate physics and collliders to be grabbable, droppable, and tossable, and collide with other parts of the kiosk and the floor
+	create a new appropriate lighting scheme with at least 2 new lights for the kiosk
+	at least 1 relevant (and not annoying) ambient sound or piece of music
+
+30% of the points on the project are for ...
+	the user needs to be able to interact with at least 2 objects in the scene using their hand and have each of those objects produce new objects 
+	(i.e. every time you open the oven a new pie pops out, or every time you touch the ticket machine it produces a new ticket). 
+	Interaction must happen locally with the users hand intersecting the object, not at distance.
+	at least 2 of the models should be animated and move, or move some of their parts
+	at least 5 of the models need to have appropriate physics and collliders to be grabbable, droppable, and tossable, and collide with other parts of the kiosk and the floor
+	at least 4 unique sounds that get louder as you get closer, or that are triggered by interacting with objects in the scene, or that sound when objects hit other objects.
+
+20% of the points on the project are for ...
+	each member of your team needs to use Makehuman and Mixamo to create a 1:1 scale kiosk worker that looks (reasonably) like you, 
+	wearing something G rated, with a suitable G rated idle animation. The worker could be trying to attract new customers, or working the register / pad, 
+	or ignoring the customers and looking at their phone, or sleeping, etc. The worker should say something when you touch them with either controller.
+
+
+library of ruina/lobotomy corp kiosk
+	different layout for each floor
+		use floor backgrounds for skybox
+			animate skybox to simulate changing between floors
+				make sure to animate going up/down correctly
+				maybe "line particles"
+			animate transparency in/out
+		use VRoid studio for sephirah models
+		change lighting/kiosk style
+	each floor sells a piece of EGO equipment
+		use PE boxes as currency
+			drop them into a box, increase a counter
+				kinda like a vending machine
+			press a button corresponding to the EGO
+			drop it from a tube in the ceiling like Portal
+			make sure only one of each EGO can be bought
+				"SOLD OUT"
+		equipment will be grabbable w/ physics
+			make sure to only enable objects matching the current floor to save on memory
+		give equipment functionality?
+			simple hitbox/raycast detection for melee/ranged
+			use doubt model as a test dummy
+				already has animations for hurt and death
+				or make a model of O-00-00
+			give PE boxes for hitting the dummy
+	some form of selector for changing floors
+		remote?
+			will need to use raycast for pointing
+				draw line
+		elevator buttons?
+		both?
+	if I wanna be *really* extra:
+		cognition filter mode:
+			can turn off the cognition filter to revert the sephirah to their true appearances
+			would basically double the models needed
+		damage numbers + damage type
+	
+	
+EGO
+	floor of history
+		fourth match flame
+		bear paws/the forgotten
+		wingbeat
+		hornet
+	floor of technological sciences
+		regret
+		grinder mk4/grinder mk52
+		harmony
+		solemn lament
+		magic bullet
+	floor of literature
+		today's expression
+		sanguine desire
+		red eyes
+		laetitia
+		black swan
+	floor of art
+		fragments from somewhere
+		our galaxy
+		pleasure
+		faint aroma
+		da capo
+	floor of natural sciences
+		in the name of love and hate
+		the sword sharpened with tears
+		gold rush
+	floor of social sciences
+		harvest
+		lumber
+	floor of language
+		crimson scar
+		combalt scar
+		smile
+		mimicry
+	floor of philosophy
+		maybe a set of eggs for each bird?
+		lamp
+		justitia
+		beak
+		twilight
+	floor of religion
+		heaven
+		dead silence
+		sound of a star
+		penitence
+		paradise lost
+	floor of general works
+		wrist cutter
+		aspiration
+		frost splinter
+
+
+other stuff
+	include "pick up ray" like in H3VR
+		make sure to note you can still pick stuff up like normal
+		

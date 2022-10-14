@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class FloorManager : MonoBehaviour
 {
+    public List<GameObject> floors;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -14,5 +16,13 @@ public class FloorManager : MonoBehaviour
     void Update()
     {
         
+    }
+
+
+    void SwitchFloors(Globals.floorType targetFloor)
+    {
+        Globals.selectedFloor = targetFloor;
+
+
     }
 }

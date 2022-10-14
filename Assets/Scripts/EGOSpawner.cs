@@ -4,27 +4,31 @@ using UnityEngine;
 
 public class EGOSpawner : MonoBehaviour
 {
+    public GameObject spawnPoint;
     public List<GameObject> historyEGO;
     public List<GameObject> technologyEGO;
     public List<GameObject> literatureEGO;
     public List<GameObject> artEGO;
 
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
-
 
     // spawns a copy of the selected item
-    public void Dispense(int item)
+    public void Dispense(int index)
     {
-
+        GameObject item;
+        switch(Globals.selectedFloor)
+        {
+            case Globals.floorType.history:
+                item = Instantiate(historyEGO[index], spawnPoint.transform.position, Quaternion.identity);
+                break;
+            case Globals.floorType.technology:
+                item = Instantiate(historyEGO[index], spawnPoint.transform.position, Quaternion.identity);
+                break;
+            case Globals.floorType.literature:
+                item = Instantiate(historyEGO[index], spawnPoint.transform.position, Quaternion.identity);
+                break;
+            case Globals.floorType.art:
+                item = Instantiate(historyEGO[index], spawnPoint.transform.position, Quaternion.identity);
+                break;
+        }
     }
 }

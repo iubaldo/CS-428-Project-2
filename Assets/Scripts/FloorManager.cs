@@ -11,10 +11,10 @@ public class FloorManager : MonoBehaviour
     int prevFloorIndex = 0;
     int nextFloorIndex = 0;
 
-    void SwitchFloors(Globals.floorType targetFloor)
+    public void SwitchFloors(int targetFloor)
     {
         prevFloor = Globals.selectedFloor;
-        Globals.selectedFloor = targetFloor;
+        nextFloorIndex = targetFloor;
       
         switch (prevFloor) 
         {
@@ -23,46 +23,16 @@ public class FloorManager : MonoBehaviour
             case Globals.floorType.literature: prevFloorIndex = 2; break;
             case Globals.floorType.art: prevFloorIndex = 3; break;
         }
-        switch (Globals.selectedFloor) 
+        switch (nextFloorIndex) 
         {
-            case Globals.floorType.history: nextFloorIndex = 0; break;
-            case Globals.floorType.technology: nextFloorIndex = 1; break;
-            case Globals.floorType.literature: nextFloorIndex = 2; break;
-            case Globals.floorType.art: nextFloorIndex = 3; break;
+            case 0: Globals.selectedFloor = Globals.floorType.history; break;
+            case 1: Globals.selectedFloor = Globals.floorType.technology; break;
+            case 2: Globals.selectedFloor = Globals.floorType.literature; break;
+            case 3: Globals.selectedFloor = Globals.floorType.art; break;
         }
 
         if (canSwitch) // don't allow user to switch floors during a switch
             StartCoroutine(FadeOut(floors[prevFloorIndex]));
-    }
-
-
-    IEnumerator FadeIn(Transform floor)
-    {
-        canSwitch = false;
-        float elapsedTime = 0f;
-        float waitTime = 8f;
-
-        List<Transform> children = new List<Transform>();
-        AddChildrenToList(floor, children);
-        foreach (Transform item in children)
-            item.gameObject.SetActive(true);
-        //while (elapsedTime < waitTime)
-        //{
-        //    foreach(Transform item in children)
-        //    {
-        //        if (item.gameObject.GetComponent<Renderer>() != null)
-        //        {
-        //            var color = item.gameObject.GetComponent<Renderer>().material.color;
-        //            color.a = Mathf.Lerp(color.a, 1, elapsedTime / waitTime);
-        //        }
-        //    }
-        //    elapsedTime += Time.deltaTime;
-
-        //    yield return null;
-        //}
-
-        StartCoroutine(FadeIn(floors[nextFloorIndex]));
-        yield return null;
     }
 
 
@@ -73,27 +43,65 @@ public class FloorManager : MonoBehaviour
 
         List<Transform> children = new List<Transform>();
         AddChildrenToList(floor, children);
+
+        while (elapsedTime < waitTime)
+        {
+            foreach (Transform item in children)
+            {
+                if (item.gameObject.GetComponent<Renderer>() != null)
+                {
+                    item.gameObject.GetComponent<Renderer>().material.SetFloat("_Mode", 2);
+                    var color = item.gameObject.GetComponent<Renderer>().material.color;
+                    color.a = Mathf.Lerp(color.a, 0, elapsedTime / waitTime);
+                }
+            }
+            elapsedTime += Time.deltaTime;
+
+            yield return null;
+        }
+
         foreach (Transform item in children)
             item.gameObject.SetActive(false);
+        floor.gameObject.SetActive(false);
 
-        //while (elapsedTime < waitTime)
-        //{
-        //    foreach (Transform item in children)
-        //    {
-        //        if (item.gameObject.GetComponent<Renderer>() != null)
-        //        {
-        //            var color = item.gameObject.GetComponent<Renderer>().material.color;
-        //            color.a = Mathf.Lerp(color.a, 0, elapsedTime / waitTime);
-        //        }
-        //    }
-        //    elapsedTime += Time.deltaTime;
+        StartCoroutine(FadeIn(floors[nextFloorIndex]));
+        yield return null;
+    }
 
-        //    yield return null;
-        //}
+
+    IEnumerator FadeIn(Transform floor)
+    {
+        canSwitch = false;
+        float elapsedTime = 0f;
+        float waitTime = 5f;
+
+        List<Transform> children = new List<Transform>();
+        AddChildrenToList(floor, children);
+        
+        while (elapsedTime < waitTime)
+        {
+            foreach (Transform item in children)
+            {
+                if (item.gameObject.GetComponent<Renderer>() != null)
+                {
+                    item.gameObject.GetComponent<Renderer>().material.SetFloat("_Mode", 2);
+                    var color = item.gameObject.GetComponent<Renderer>().material.color;
+                    color.a = Mathf.Lerp(color.a, 1, elapsedTime / waitTime);
+                }
+            }
+            elapsedTime += Time.deltaTime;
+
+            yield return null;
+        }
+
+        foreach (Transform item in children)
+            item.gameObject.SetActive(true);
+        floor.gameObject.SetActive(true);
 
         canSwitch = true;
         yield return null;
     }
+
 
 
     void AddChildrenToList(Transform parent, List<Transform> children)

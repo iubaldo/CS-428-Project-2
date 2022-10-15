@@ -21,27 +21,14 @@ public class FloorManager : MonoBehaviour
 
     public void SwitchFloors(int targetFloor)
     {
-        if (canSwitch) // don't allow user to switch floors during a switch
+        if (canSwitch && targetFloor != (int)Globals.selectedFloor) // don't allow user to switch floors during a switch
         {
             canSwitch = false;
 
             prevFloor = Globals.selectedFloor;
+            prevFloorIndex = (int)Globals.selectedFloor;
+            Globals.selectedFloor = (Globals.floorType)targetFloor;
             nextFloorIndex = targetFloor;
-      
-            switch (prevFloor) 
-            {
-                case Globals.floorType.history: prevFloorIndex = 0; break;
-                case Globals.floorType.technology: prevFloorIndex = 1; break;
-                case Globals.floorType.literature: prevFloorIndex = 2; break;
-                case Globals.floorType.art: prevFloorIndex = 3; break;
-            }
-            switch (targetFloor) 
-            {
-                case 0: Globals.selectedFloor = Globals.floorType.history; break;
-                case 1: Globals.selectedFloor = Globals.floorType.technology; break;
-                case 2: Globals.selectedFloor = Globals.floorType.literature; break;
-                case 3: Globals.selectedFloor = Globals.floorType.art; break;
-            }
                         
             Debug.Log("Fading out floor " + prevFloorIndex + ", fading in floor " + nextFloorIndex);
             StartCoroutine(FadeOut(floors[prevFloorIndex]));
@@ -51,13 +38,14 @@ public class FloorManager : MonoBehaviour
 
     IEnumerator FadeOut(Transform floor)
     {
-        float elapsedTime = 0f;
         float waitTime = 5f;
+        float startTime = Time.time;
+        float endTime = startTime + waitTime;
 
         List<Transform> children = new List<Transform>();
         AddChildrenToList(floor, children);
 
-        while (elapsedTime < waitTime)
+        while (Time.time < endTime)
         {
             foreach (Transform item in children)
             {
@@ -75,11 +63,12 @@ public class FloorManager : MonoBehaviour
                     mat.renderQueue = 3000;
 
                     Color matColor = mat.color;
-                    matColor.a = Mathf.Lerp(matColor.a, 0, elapsedTime / waitTime);
+                    matColor.a = Mathf.Lerp(matColor.a, 0, (Time.time - startTime) / waitTime);
                     mat.color = matColor;
                 }
             }
-            elapsedTime += Time.deltaTime;
+
+            recordPlayer.volume = Mathf.Lerp(recordPlayer.volume, 0, (Time.time - startTime) / waitTime);
 
             yield return null;
         }
@@ -94,9 +83,19 @@ public class FloorManager : MonoBehaviour
 
 
     IEnumerator FadeIn(Transform floor)
-    {
-        float elapsedTime = 0f;
+    { 
         float waitTime = 5f;
+        float startTime = Time.time;
+        float endTime = startTime + waitTime;
+
+        switch (nextFloorIndex)
+        {
+            case 0: recordPlayer.clip = historyBGM; break;
+            case 1: recordPlayer.clip = technologyBGM; break;
+            case 2: recordPlayer.clip = literatureBGM; break;
+            case 3: recordPlayer.clip = artBGM; break;
+        }
+        recordPlayer.Play();
 
         List<Transform> children = new List<Transform>();
         AddChildrenToList(floor, children);
@@ -116,7 +115,7 @@ public class FloorManager : MonoBehaviour
             
         floor.gameObject.SetActive(true);
 
-        while (elapsedTime < waitTime)
+        while (Time.time < endTime)
         {
             foreach (Transform item in children)
             {
@@ -134,11 +133,12 @@ public class FloorManager : MonoBehaviour
                     mat.renderQueue = 3000;
 
                     Color matColor = mat.color;
-                    matColor.a = Mathf.Lerp(matColor.a, 1, elapsedTime / waitTime);
+                    matColor.a = Mathf.Lerp(matColor.a, 1, (Time.time - startTime) / waitTime);
                     mat.color = matColor;
                 }
             }
-            elapsedTime += Time.deltaTime;
+
+            recordPlayer.volume = Mathf.Lerp(recordPlayer.volume, 1, (Time.time - startTime) / waitTime);
 
             yield return null;
         }

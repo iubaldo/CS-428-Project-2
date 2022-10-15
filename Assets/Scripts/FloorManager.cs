@@ -11,6 +11,12 @@ public class FloorManager : MonoBehaviour
     int prevFloorIndex = 0;
     int nextFloorIndex = 0;
 
+    //Grab the Audio from the record player.
+    AudioSource recordPlayer = GameObject.Find("/AllObjects/Floors/RecordPlayer").GetComponent<AudioSource>();
+
+    //recordPlayer.clip = 
+
+
     public void SwitchFloors(int targetFloor)
     {
         prevFloor = Globals.selectedFloor;

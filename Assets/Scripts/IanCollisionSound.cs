@@ -5,9 +5,14 @@ using UnityEngine;
 public class IanCollisionSound : MonoBehaviour
 {
     // Start is called before the first frame update
+    public Collider collision;
+    AudioSource ianVoice;
+    private float coolDown = 13.5f;
+    private bool talks = false;
+
     void Start()
     {
-        
+        ianVoice = GetComponent<AudioSource>();
     }
 
     // Update is called once per frame
@@ -15,4 +20,21 @@ public class IanCollisionSound : MonoBehaviour
     {
         
     }
+
+    private void OnTriggerEnter(Collider other) 
+    {
+        if (talks == false)
+        {
+            ianVoice.Play();
+            StartCoroutine(CoolDown());
+        }
+        
+    }
+
+    IEnumerator CoolDown() {
+        talks = true;
+        yield return new WaitForSeconds(coolDown);
+        talks = false;
+    }
+
 }

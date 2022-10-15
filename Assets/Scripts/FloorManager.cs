@@ -51,8 +51,9 @@ public class FloorManager : MonoBehaviour
                 if (item.gameObject.GetComponent<Renderer>() != null)
                 {
                     item.gameObject.GetComponent<Renderer>().material.SetFloat("_Mode", 2);
-                    var color = item.gameObject.GetComponent<Renderer>().material.color;
-                    color.a = Mathf.Lerp(color.a, 0, elapsedTime / waitTime);
+                    var matColor = item.gameObject.GetComponent<Renderer>().material.color;
+                    matColor.a = Mathf.Lerp(matColor.a, 0, elapsedTime / waitTime);
+                    item.gameObject.GetComponent<Renderer>().material.color = matColor;
                 }
             }
             elapsedTime += Time.deltaTime;
@@ -85,8 +86,9 @@ public class FloorManager : MonoBehaviour
                 if (item.gameObject.GetComponent<Renderer>() != null)
                 {
                     item.gameObject.GetComponent<Renderer>().material.SetFloat("_Mode", 2);
-                    var color = item.gameObject.GetComponent<Renderer>().material.color;
-                    color.a = Mathf.Lerp(color.a, 1, elapsedTime / waitTime);
+                    var matColor = item.gameObject.GetComponent<Renderer>().material.color;
+                    matColor.a = Mathf.Lerp(matColor.a, 1, elapsedTime / waitTime);
+                    item.gameObject.GetComponent<Renderer>().material.color = matColor;
                 }
             }
             elapsedTime += Time.deltaTime;

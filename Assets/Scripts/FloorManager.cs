@@ -31,8 +31,11 @@ public class FloorManager : MonoBehaviour
             case 3: Globals.selectedFloor = Globals.floorType.art; break;
         }
 
-        if (canSwitch) // don't allow user to switch floors during a switch
+        if (canSwitch)// don't allow user to switch floors during a switch
+        {
+            canSwitch = false;
             StartCoroutine(FadeOut(floors[prevFloorIndex]));
+        }      
     }
 
 
@@ -48,12 +51,22 @@ public class FloorManager : MonoBehaviour
         {
             foreach (Transform item in children)
             {
-                if (item.gameObject.GetComponent<Renderer>() != null)
+                if (item.gameObject.GetComponent<MeshRenderer>() != null)
                 {
-                    item.gameObject.GetComponent<Renderer>().material.SetFloat("_Mode", 2);
-                    var matColor = item.gameObject.GetComponent<Renderer>().material.color;
+                    Material mat = item.gameObject.GetComponent<MeshRenderer>().material;
+
+                    mat.SetFloat("_Mode", 2); // set object rendering to fade mode, the rest is because of a known bug in Unity
+                    mat.SetInt("_SrcBlend", (int)UnityEngine.Rendering.BlendMode.SrcAlpha);
+                    mat.SetInt("_DstBlend", (int)UnityEngine.Rendering.BlendMode.OneMinusSrcAlpha);
+                    mat.SetInt("_ZWrite", 0);
+                    mat.DisableKeyword("_ALPHATEST_ON");
+                    mat.EnableKeyword("_ALPHABLEND_ON");
+                    mat.DisableKeyword("_ALPHAPREMULTIPLY_ON");
+                    mat.renderQueue = 3000;
+
+                    Color matColor = mat.color;
                     matColor.a = Mathf.Lerp(matColor.a, 0, elapsedTime / waitTime);
-                    item.gameObject.GetComponent<Renderer>().material.color = matColor;
+                    mat.color = matColor;
                 }
             }
             elapsedTime += Time.deltaTime;
@@ -61,7 +74,7 @@ public class FloorManager : MonoBehaviour
             yield return null;
         }
 
-        foreach (Transform item in children)
+        foreach (Transform item in children) // make all objects inactive since they're not visible
             item.gameObject.SetActive(false);
         floor.gameObject.SetActive(false);
 
@@ -72,23 +85,47 @@ public class FloorManager : MonoBehaviour
 
     IEnumerator FadeIn(Transform floor)
     {
-        canSwitch = false;
         float elapsedTime = 0f;
         float waitTime = 5f;
 
         List<Transform> children = new List<Transform>();
         AddChildrenToList(floor, children);
-        
+
+        foreach (Transform item in children) 
+        {
+            item.gameObject.SetActive(true);// reactivate all objects to make them visible during fade in
+
+            if (item.gameObject.GetComponent<Renderer>() != null)
+            {
+                Material mat = item.gameObject.GetComponent<MeshRenderer>().material; // reset alpha to 0
+                Color matColor = mat.color;
+                matColor.a = 0;
+                mat.color = matColor;
+            }            
+        }
+            
+        floor.gameObject.SetActive(true);
+
         while (elapsedTime < waitTime)
         {
             foreach (Transform item in children)
             {
                 if (item.gameObject.GetComponent<Renderer>() != null)
                 {
-                    item.gameObject.GetComponent<Renderer>().material.SetFloat("_Mode", 2);
-                    var matColor = item.gameObject.GetComponent<Renderer>().material.color;
+                    Material mat = item.gameObject.GetComponent<MeshRenderer>().material;
+
+                    mat.SetFloat("_Mode", 2);
+                    mat.SetInt("_SrcBlend", (int)UnityEngine.Rendering.BlendMode.SrcAlpha);
+                    mat.SetInt("_DstBlend", (int)UnityEngine.Rendering.BlendMode.OneMinusSrcAlpha);
+                    mat.SetInt("_ZWrite", 0);
+                    mat.DisableKeyword("_ALPHATEST_ON");
+                    mat.EnableKeyword("_ALPHABLEND_ON");
+                    mat.DisableKeyword("_ALPHAPREMULTIPLY_ON");
+                    mat.renderQueue = 3000;
+
+                    Color matColor = mat.color;
                     matColor.a = Mathf.Lerp(matColor.a, 1, elapsedTime / waitTime);
-                    item.gameObject.GetComponent<Renderer>().material.color = matColor;
+                    mat.color = matColor;
                 }
             }
             elapsedTime += Time.deltaTime;
@@ -96,9 +133,21 @@ public class FloorManager : MonoBehaviour
             yield return null;
         }
 
-        foreach (Transform item in children)
-            item.gameObject.SetActive(true);
-        floor.gameObject.SetActive(true);
+        foreach (Transform item in children) // set objects back to opaque after fading in
+        {
+            if (item.gameObject.GetComponent<MeshRenderer>() != null) 
+            {
+                Material mat = item.gameObject.GetComponent<MeshRenderer>().material;
+                mat.SetFloat("_Mode", 0);
+                mat.SetInt("_SrcBlend", (int)UnityEngine.Rendering.BlendMode.SrcAlpha);
+                mat.SetInt("_DstBlend", (int)UnityEngine.Rendering.BlendMode.OneMinusSrcAlpha);
+                mat.SetInt("_ZWrite", 0);
+                mat.DisableKeyword("_ALPHATEST_ON");
+                mat.EnableKeyword("_ALPHABLEND_ON");
+                mat.DisableKeyword("_ALPHAPREMULTIPLY_ON");
+                mat.renderQueue = 3000;
+            }
+        }
 
         canSwitch = true;
         yield return null;

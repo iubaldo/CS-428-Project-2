@@ -12,34 +12,38 @@ public class FloorManager : MonoBehaviour
     int nextFloorIndex = 0;
 
     //Grab the Audio from the record player.
-    AudioSource recordPlayer = GameObject.Find("/AllObjects/Floors/RecordPlayer").GetComponent<AudioSource>();
-
-    //recordPlayer.clip = 
+    public AudioSource recordPlayer;
+    public AudioClip literatureBGM;
+    public AudioClip technologyBGM;
+    public AudioClip historyBGM;
+    public AudioClip artBGM;
 
 
     public void SwitchFloors(int targetFloor)
     {
-        prevFloor = Globals.selectedFloor;
-        nextFloorIndex = targetFloor;
-      
-        switch (prevFloor) 
-        {
-            case Globals.floorType.history: prevFloorIndex = 0; break;
-            case Globals.floorType.technology: prevFloorIndex = 1; break;
-            case Globals.floorType.literature: prevFloorIndex = 2; break;
-            case Globals.floorType.art: prevFloorIndex = 3; break;
-        }
-        switch (nextFloorIndex) 
-        {
-            case 0: Globals.selectedFloor = Globals.floorType.history; break;
-            case 1: Globals.selectedFloor = Globals.floorType.technology; break;
-            case 2: Globals.selectedFloor = Globals.floorType.literature; break;
-            case 3: Globals.selectedFloor = Globals.floorType.art; break;
-        }
-
-        if (canSwitch)// don't allow user to switch floors during a switch
+        if (canSwitch) // don't allow user to switch floors during a switch
         {
             canSwitch = false;
+
+            prevFloor = Globals.selectedFloor;
+            nextFloorIndex = targetFloor;
+      
+            switch (prevFloor) 
+            {
+                case Globals.floorType.history: prevFloorIndex = 0; break;
+                case Globals.floorType.technology: prevFloorIndex = 1; break;
+                case Globals.floorType.literature: prevFloorIndex = 2; break;
+                case Globals.floorType.art: prevFloorIndex = 3; break;
+            }
+            switch (targetFloor) 
+            {
+                case 0: Globals.selectedFloor = Globals.floorType.history; break;
+                case 1: Globals.selectedFloor = Globals.floorType.technology; break;
+                case 2: Globals.selectedFloor = Globals.floorType.literature; break;
+                case 3: Globals.selectedFloor = Globals.floorType.art; break;
+            }
+                        
+            Debug.Log("Fading out floor " + prevFloorIndex + ", fading in floor " + nextFloorIndex);
             StartCoroutine(FadeOut(floors[prevFloorIndex]));
         }      
     }
@@ -84,7 +88,7 @@ public class FloorManager : MonoBehaviour
             item.gameObject.SetActive(false);
         floor.gameObject.SetActive(false);
 
-        StartCoroutine(FadeIn(floors[nextFloorIndex]));
+        StartCoroutine(FadeIn(floors[nextFloorIndex])); // when done, fade in the next floor
         yield return null;
     }
 
@@ -99,9 +103,9 @@ public class FloorManager : MonoBehaviour
 
         foreach (Transform item in children) 
         {
-            item.gameObject.SetActive(true);// reactivate all objects to make them visible during fade in
+            item.gameObject.SetActive(true); // reactivate all objects to make them visible during fade in
 
-            if (item.gameObject.GetComponent<Renderer>() != null)
+            if (item.gameObject.GetComponent<MeshRenderer>() != null)
             {
                 Material mat = item.gameObject.GetComponent<MeshRenderer>().material; // reset alpha to 0
                 Color matColor = mat.color;
@@ -116,7 +120,7 @@ public class FloorManager : MonoBehaviour
         {
             foreach (Transform item in children)
             {
-                if (item.gameObject.GetComponent<Renderer>() != null)
+                if (item.gameObject.GetComponent<MeshRenderer>() != null)
                 {
                     Material mat = item.gameObject.GetComponent<MeshRenderer>().material;
 
@@ -154,7 +158,7 @@ public class FloorManager : MonoBehaviour
                 mat.renderQueue = 3000;
             }
         }
-
+       
         canSwitch = true;
         yield return null;
     }

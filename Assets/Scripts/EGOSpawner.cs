@@ -11,9 +11,18 @@ public class EGOSpawner : MonoBehaviour
     public List<GameObject> artEGO;
 
 
+    public float timeLastDispensed = 0;
+    public float dispenseCD = 1;
+
+
     // spawns a copy of the selected item
     public void Dispense(int index)
     {
+        if (Time.time < timeLastDispensed + dispenseCD || Globals.currentMoney <= 0) // money check
+            return;
+
+        timeLastDispensed = Time.time;
+
         GameObject item;
         switch(Globals.selectedFloor)
         {
@@ -21,14 +30,16 @@ public class EGOSpawner : MonoBehaviour
                 item = Instantiate(historyEGO[index], spawnPoint.transform.position, Quaternion.identity);
                 break;
             case Globals.floorType.technology:
-                item = Instantiate(historyEGO[index], spawnPoint.transform.position, Quaternion.identity);
+                item = Instantiate(technologyEGO[index], spawnPoint.transform.position, Quaternion.identity);
                 break;
             case Globals.floorType.literature:
-                item = Instantiate(historyEGO[index], spawnPoint.transform.position, Quaternion.identity);
+                item = Instantiate(literatureEGO[index], spawnPoint.transform.position, Quaternion.identity);
                 break;
             case Globals.floorType.art:
-                item = Instantiate(historyEGO[index], spawnPoint.transform.position, Quaternion.identity);
+                item = Instantiate(artEGO[index], spawnPoint.transform.position, Quaternion.identity);
                 break;
         }
+
+        Globals.currentMoney -= 1;
     }
 }

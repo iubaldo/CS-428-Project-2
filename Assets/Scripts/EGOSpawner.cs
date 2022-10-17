@@ -5,10 +5,14 @@ using UnityEngine;
 public class EGOSpawner : MonoBehaviour
 {
     public GameObject spawnPoint;
+    
     public List<GameObject> historyEGO;
     public List<GameObject> technologyEGO;
     public List<GameObject> literatureEGO;
     public List<GameObject> artEGO;
+
+    public GameObject coinSpawnPoint;
+    public GameObject coinPrefab;
 
 
     public float timeLastDispensed = 0;
@@ -41,5 +45,15 @@ public class EGOSpawner : MonoBehaviour
         }
 
         Globals.currentMoney -= 1;
+    }
+
+
+    public void SpawnCoin()
+    {
+        if (Time.time < timeLastDispensed + dispenseCD) // money check
+            return;
+
+        timeLastDispensed = Time.time;
+        Instantiate(coinPrefab, coinSpawnPoint.transform.position, Quaternion.identity);
     }
 }

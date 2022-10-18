@@ -9118,7 +9118,7 @@ MonoBehaviour:
   inputUngrabReceived: {fileID: 6292689756821371313}
   inputGrabSetup: {fileID: 6292689757086027675}
   inputUngrabReset: {fileID: 6292689756463723784}
-  followTracking: 0
+  followTracking: 1
   grabOffset: 1
   orientationHandleLogic: 0
   isKinematicWhenActive: 1

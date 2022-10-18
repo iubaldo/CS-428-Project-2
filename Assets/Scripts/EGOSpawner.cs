@@ -31,16 +31,16 @@ public class EGOSpawner : MonoBehaviour
         switch(Globals.selectedFloor)
         {
             case Globals.floorType.history:
-                item = Instantiate(historyEGO[index], spawnPoint.transform.position, Quaternion.identity);
+                item = Instantiate(historyEGO[index], spawnPoint.transform.position, Quaternion.identity * Quaternion.Euler(0, 0, 90));
                 break;
             case Globals.floorType.technology:
-                item = Instantiate(technologyEGO[index], spawnPoint.transform.position, Quaternion.identity);
+                item = Instantiate(technologyEGO[index], spawnPoint.transform.position, Quaternion.identity * Quaternion.Euler(0, 0, 90));
                 break;
             case Globals.floorType.literature:
-                item = Instantiate(literatureEGO[index], spawnPoint.transform.position, Quaternion.identity);
+                item = Instantiate(literatureEGO[index], spawnPoint.transform.position, Quaternion.identity * Quaternion.Euler(0, 0, 90));
                 break;
             case Globals.floorType.art:
-                item = Instantiate(artEGO[index], spawnPoint.transform.position, Quaternion.identity);
+                item = Instantiate(artEGO[index], spawnPoint.transform.position, Quaternion.identity * Quaternion.Euler(0, 0, 90));
                 break;
         }
 

@@ -12,11 +12,24 @@ public class EGOSpawner : MonoBehaviour
     public List<GameObject> artEGO;
 
     public GameObject coinSpawnPoint;
+    public GameObject coinSpawnPoint2;
     public GameObject coinPrefab;
 
 
     public float timeLastDispensed = 0;
     public float dispenseCD = 1;
+
+    public static bool spawnCoinSignal = false;
+
+
+    private void Update()
+    {
+        if (spawnCoinSignal)
+        {
+            spawnCoinSignal = false;
+            SpawnCoin(coinSpawnPoint2);
+        }
+    }
 
 
     // spawns a copy of the selected item
@@ -55,5 +68,16 @@ public class EGOSpawner : MonoBehaviour
 
         timeLastDispensed = Time.time;
         Instantiate(coinPrefab, coinSpawnPoint.transform.position, Quaternion.identity);
+    }
+
+
+    // overload
+    public void SpawnCoin(GameObject spawnPoint)
+    {
+        if (Time.time < timeLastDispensed + dispenseCD) // money check
+            return;
+
+        timeLastDispensed = Time.time;
+        Instantiate(coinPrefab, spawnPoint.transform.position, Quaternion.identity);
     }
 }

@@ -12,9 +12,12 @@ public class EGO : MonoBehaviour
     public float timeLastShot = 0;
 
  
-    public void OnHit() // for melee weapons only
+    public void OnHit(GameObject target) // for melee weapons only
     {
-
+        if (target.CompareTag("enemy"))
+        {
+            EGOSpawner.spawnCoinSignal = true;
+        }
     }
 
 
@@ -33,7 +36,7 @@ public class EGO : MonoBehaviour
         if (!ranged && collision.relativeVelocity.magnitude > 1)
         {
             audioSource.Play();
-            OnHit();
+            OnHit(collision.gameObject);
         }
     }
 }

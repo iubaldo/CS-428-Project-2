@@ -6,6 +6,7 @@ TagManager:
   tags:
   - Fluid
   - coin
+  - enemy
   layers:
   - Default
   - TransparentFX
